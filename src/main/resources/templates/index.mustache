@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenAI API 테스트</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>OpenAI API를 사용하여 시 생성</h1>
+<form id="prompt-form">
+    <label for="prompt">프롬프트 입력:</label><br>
+    <textarea id="prompt" name="prompt" rows="4" cols="50"></textarea><br><br>
+    <input type="button" value="제출" onclick="submitPrompt()">
+</form>
+<h2>응답:</h2>
+<pre id="response"></pre>
+
+<script>
+    function submitPrompt() {
+        var prompt = $('#prompt').val();
+        $.ajax({
+            url: '/api/openai/generate-poem',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ prompt: prompt }),
+            success: function(response) {
+                $('#response').text(response);
+            },
+            error: function(error) {
+                $('#response').text('Error: ' + error.responseText);
+            }
+        });
+    }
+</script>
+</body>
+</html>
